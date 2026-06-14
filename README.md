@@ -54,6 +54,7 @@ Frida helper); MMRs come from Blizzard's public leaderboard API. The two are mat
 - [x] 🎉 Initial launch — opponent MMR on NA / EU / AP
 - [ ] 🇨🇳 CN (NetEase) server support
 - [ ] 📈 Opponent trend — show each opponent's recent form (are they winning or losing lately?)
+- [ ] ✨ … to be continued
 
 Ideas and PRs welcome!
 
