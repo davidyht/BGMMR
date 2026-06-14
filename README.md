@@ -5,6 +5,8 @@ Standalone — works alongside HSTracker or any tracker, or none.
 
 > *I'm a Battlegrounds lover stuck on a MacBook, and there's just no Mac tool to see your
 > opponents' MMR — so I vibe-coded one. Hope it helps you climb! 💙*
+>
+> *Add me in game — **Runsheep#2637** — always happy to make Battlegrounds friends! 👋*
 
 Currently supports the **NA, EU, and AP** servers.
 
