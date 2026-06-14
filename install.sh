@@ -2,13 +2,13 @@
 #
 # One-line installer for BGMMR (free / un-notarized build).
 #
-#   curl -fsSL https://raw.githubusercontent.com/OWNER/BGMMR/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/davidyht/BGMMR/main/install.sh | bash
 #
 # Downloads the latest GitHub release, installs to /Applications, clears the Gatekeeper
 # quarantine (since the app isn't notarized), and launches it.
 #
 set -e
-REPO="${BGMMR_REPO:-OWNER/BGMMR}"   # <-- set this to your GitHub "owner/repo"
+REPO="${BGMMR_REPO:-davidyht/BGMMR}"   # <-- set this to your GitHub "owner/repo"
 
 echo "Installing BGMMR from $REPO ..."
 url=$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" \

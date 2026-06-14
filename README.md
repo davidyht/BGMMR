@@ -27,7 +27,7 @@ Currently supports the **NA, EU, and AP** servers.
 
 **One line (recommended):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/OWNER/BGMMR/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/davidyht/BGMMR/main/install.sh | bash
 ```
 Downloads the latest release, installs to `/Applications`, clears the Gatekeeper quarantine,
 and launches it.
