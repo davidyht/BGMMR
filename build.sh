@@ -24,9 +24,10 @@ swiftc -O -target arm64-apple-macos11 Sources/*.swift -o build/BGMMR -framework 
 
 echo "[3/4] assembling BGMMR.app..."
 rm -rf "$APP"
-mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Helpers"
+mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Helpers" "$APP/Contents/Resources"
 cp build/BGMMR "$APP/Contents/MacOS/BGMMR"
 cp helper/bgmmr-reader "$APP/Contents/Helpers/bgmmr-reader"
+[ -f Resources/AppIcon.icns ] && cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -36,6 +37,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
     <key>CFBundleDisplayName</key><string>Battlegrounds MMR</string>
     <key>CFBundleIdentifier</key><string>net.bgmmr.opponentmmr</string>
     <key>CFBundleExecutable</key><string>BGMMR</string>
+    <key>CFBundleIconFile</key><string>AppIcon</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleShortVersionString</key><string>0.1.0</string>
     <key>CFBundleVersion</key><string>1</string>

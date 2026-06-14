@@ -10,7 +10,45 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let menu = NSMenu()
         menu.delegate = self                // rebuilt each time it opens, so status is live
         statusItem.menu = menu
+
+        if !Settings.firstRunDone {
+            if !runFirstRun() { NSApp.terminate(nil); return }
+            Settings.firstRunDone = true
+        }
         HearthstoneWatcher.shared.start()
+    }
+
+    /// First-launch: disclaimer + region pick. Returns false if the user declines.
+    private func runFirstRun() -> Bool {
+        NSApp.activate(ignoringOtherApps: true)
+
+        let disc = NSAlert()
+        disc.messageText = "Before you start"
+        disc.informativeText = """
+        BGMMR shows your opponents' Battlegrounds MMR by reading Hearthstone's memory (via code \
+        injection). This is a gray area under Blizzard's Terms of Service and carries a real risk \
+        of anti-cheat action on your account. It is not affiliated with or endorsed by Blizzard.
+
+        Use at your own risk.
+        """
+        disc.alertStyle = .warning
+        disc.addButton(withTitle: "I Understand — Continue")
+        disc.addButton(withTitle: "Quit")
+        if disc.runModal() != .alertFirstButtonReturn { return false }
+
+        let pick = NSAlert()
+        pick.messageText = "Select your region"
+        pick.informativeText = "Pick the region you play Battlegrounds on (used to look up MMRs)."
+        let popup = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 220, height: 26))
+        popup.addItems(withTitles: Region.allCases.map { $0.label })
+        if let idx = Region.allCases.firstIndex(of: Settings.region) { popup.selectItem(at: idx) }
+        pick.accessoryView = popup
+        pick.addButton(withTitle: "Save")
+        if pick.runModal() == .alertFirstButtonReturn {
+            let r = Region.allCases[max(0, popup.indexOfSelectedItem)]
+            Settings.region = r
+        }
+        return true
     }
 
     // Rebuild on open so the status line + checkmarks are current.

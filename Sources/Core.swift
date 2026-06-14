@@ -30,6 +30,10 @@ enum Region: String, CaseIterable {
 enum Settings {
     private static let d = UserDefaults.standard
 
+    static var firstRunDone: Bool {
+        get { d.bool(forKey: "firstRunDone") }
+        set { d.set(newValue, forKey: "firstRunDone") }
+    }
     static var enabled: Bool {
         get { d.object(forKey: "enabled") as? Bool ?? true }
         set { d.set(newValue, forKey: "enabled") }
