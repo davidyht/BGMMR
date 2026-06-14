@@ -10,6 +10,14 @@ Standalone — works alongside HSTracker or any tracker, or none.
 
 Currently supports the **NA, EU, and AP** servers.
 
+## What it does
+- 🎯 Shows the **MMR of every opponent** in your Battlegrounds lobby, live during the match.
+- 🪟 A small **draggable, resizable** overlay that remembers its position and zoom.
+- 👀 **Preview** your region's current **top 8** anytime — no game needed.
+- 🚀 **Auto-start with Hearthstone**: appears when you play, quits when you stop.
+- 🤝 **Standalone** — runs next to HSTracker (or any tracker, or on its own).
+- ⚙️ Works in **Solo & Duos**; hide yourself, pick your region, or set a custom Hearthstone path.
+
 ## Requirements
 - Apple Silicon Mac.
 - Hearthstone running **natively (arm64)** — not under Rosetta.
