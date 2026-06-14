@@ -1,52 +1,54 @@
-# BGMMR — Battlegrounds Opponent MMR (standalone)
+# BGMMR — Battlegrounds Opponent MMR
 
-A tiny **menu-bar app** that shows your opponents' MMR in Hearthstone Battlegrounds.
-It is **completely independent of HSTracker** — run it alongside any tracker (or none).
+A tiny macOS menu-bar app that shows your **opponents' MMR** in Hearthstone Battlegrounds.
+Standalone — works alongside HSTracker or any tracker, or none.
 
-It reads the in-game leaderboard names from Hearthstone's Mono memory via a bundled Frida
-sidecar (`bgmmr-reader`) and matches them against Blizzard's public leaderboard.
-
-> ⚠️ Reads game memory via code injection (Frida) — a gray area under Blizzard's ToS with
-> real anti-cheat/ban risk. Not affiliated with Blizzard. Use at your own risk.
+> ⚠️ **Disclaimer.** BGMMR reads Hearthstone's memory via code injection (Frida). This is a
+> gray area under Blizzard's Terms of Service and carries a real risk of **anti-cheat action
+> on your account**. It is **not** affiliated with or endorsed by Blizzard. Use at your own risk.
 
 ## Requirements
-- Apple Silicon Mac; **Hearthstone running natively (arm64)**.
-- Region US / EU / AP (China not supported).
+- Apple Silicon Mac.
+- Hearthstone running **natively (arm64)** — not under Rosetta.
+- Region **NA / EU / AP** (China/NetEase is not supported).
 
-## Install (one line)
+## Install
 
+**One line (recommended):**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/OWNER/BGMMR/main/install.sh | bash
 ```
-Downloads the latest release, installs to `/Applications`, clears the Gatekeeper quarantine
-(the app is free / un-notarized), and launches it. Then pick your **Region** from the
-**"MMR"** menu-bar item.
+Downloads the latest release, installs to `/Applications`, clears the Gatekeeper quarantine,
+and launches it.
 
-**Prefer a GUI?** Download `BGMMR.dmg` from the [Releases](../../releases) page, drag
-**BGMMR** to Applications, then double-click **First Run - read me.command** once. (That
-one-time step is only because the app isn't notarized — Apple charges $99/yr for that.)
+**Or manually:** download `BGMMR.dmg` from the [Releases](../../releases) page → drag **BGMMR**
+to **Applications** → double-click **"First Run - read me.command"** once (needed because the
+app isn't notarized).
 
-> Replace `OWNER/BGMMR` with your GitHub repo. Releases are built and published automatically
-> by GitHub Actions when you push a `v*` tag (`git tag v0.1.0 && git push --tags`).
+## Use
+BGMMR lives in the **menu bar** (a small **"MMR"** item near the clock) — no Dock icon.
 
-Then: pick your Region, optionally set your BattleTag (to hide yourself), or "Show panel
-preview". Launch Hearthstone (arm64) and opponent MMRs appear in a draggable overlay.
+1. On first launch: accept the disclaimer and pick your **region**.
+2. Click **MMR → Show panel preview** to see the panel (your region's current top 8). Drag it
+   where you like; drag a corner (or **Zoom In/Out**) to scale it; the **✕** closes it.
+3. Launch Hearthstone (arm64) and play **Battlegrounds** — opponents' MMRs appear in the panel.
+   `<8000` means a player isn't on the public leaderboard.
+
+Menu options: **Region**, **Set your BattleTag** (to hide yourself), **Auto-start with
+Hearthstone** (launches BGMMR when the game starts and quits when it closes), and
+**Set Hearthstone path…** (only if auto-detect fails).
+
+## How it works
+Opponent names come from Hearthstone's in-game leaderboard (read from memory via a bundled
+Frida helper); MMRs come from Blizzard's public leaderboard API. The two are matched by name.
 
 ## Build from source
 ```bash
 ./setup.sh     # downloads the pinned Frida devkit
-./build.sh     # builds BGMMR.app + helper, signs (ad-hoc)
-open build/BGMMR.app
-# or: ./package.sh   → dist/BGMMR.dmg and dist/BGMMR.zip
+./build.sh     # builds BGMMR.app (ad-hoc signed) → build/BGMMR.app
+./package.sh   # optional: makes dist/BGMMR.dmg and dist/BGMMR.zip
 ```
 
-## Why standalone
-No fork of HSTracker → no rebasing, no auto-update conflicts. The opponent names come from the
-game's memory, not from HSTracker, so HSTracker was never actually required.
-
-## Licenses / credits
-- [Frida](https://frida.re) — statically linked in the helper, under the **wxWindows Library
-  Licence** (LGPL variant w/ static-linking exception; helper source is included to satisfy it).
-- Inspired by [HDT_BGrank](https://github.com/IBM5100o/HDT_BGrank) (the Windows plugin).
-- Hearthstone is a Blizzard trademark; this project is not affiliated with Blizzard.
-- BGMMR's own code: MIT.
+## License / credits
+MIT (see `LICENSE`). Uses [Frida](https://frida.re) (wxWindows licence); inspired by the
+Windows [HDT_BGrank](https://github.com/IBM5100o/HDT_BGrank) plugin. See `THIRD-PARTY-NOTICES.md`.
