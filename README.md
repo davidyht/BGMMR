@@ -3,6 +3,9 @@
 A tiny macOS menu-bar app that shows your **opponents' MMR** in Hearthstone Battlegrounds.
 Standalone — works alongside HSTracker or any tracker, or none.
 
+> *I'm a Battlegrounds lover stuck on a MacBook, and there's just no Mac tool to see your
+> opponents' MMR — so I vibe-coded one. Hope it helps you climb! 💙*
+
 > ⚠️ **Disclaimer.** BGMMR reads Hearthstone's memory via code injection (Frida). This is a
 > gray area under Blizzard's Terms of Service and carries a real risk of **anti-cheat action
 > on your account**. It is **not** affiliated with or endorsed by Blizzard. Use at your own risk.
