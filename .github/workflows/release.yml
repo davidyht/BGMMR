@@ -1,0 +1,54 @@
+name: Build and Release
+
+# Builds the app on an Apple Silicon runner and publishes the .dmg/.zip to a GitHub
+# Release whenever you push a version tag, e.g.:  git tag v0.1.0 && git push --tags
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:   # allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-14   # Apple Silicon (arm64) — required: the helper + frida devkit are arm64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Frida devkit
+        run: ./setup.sh
+
+      - name: Build (ad-hoc signed)
+        run: ./build.sh
+
+      - name: Package (.zip + .dmg)
+        run: ./package.sh
+
+      - name: Publish to Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/BGMMR.dmg
+            dist/BGMMR.zip
+          body: |
+            Free / un-notarized build. Install one of these ways:
+
+            **One line:**
+            ```
+            curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | bash
+            ```
+
+            **Or manually:** download `BGMMR.dmg`, drag BGMMR to Applications, then
+            double-click **First Run - read me.command** once.
+
+            Requires Apple Silicon + Hearthstone running natively (arm64). Reads game
+            memory via Frida — see the README disclaimer.
+
+      - name: Upload build artifacts (for manual runs)
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: BGMMR
+          path: dist/*

@@ -1,0 +1,8 @@
+devkit/
+build/
+helper/agent_js.h
+helper/bgmmr-reader
+*.tar.xz
+.DS_Store
+dist/
+devkit
