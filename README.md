@@ -6,9 +6,7 @@ Standalone — works alongside HSTracker or any tracker, or none.
 > *I'm a Battlegrounds lover stuck on a MacBook, and there's just no Mac tool to see your
 > opponents' MMR — so I vibe-coded one. Hope it helps you climb! 💙*
 
-> ⚠️ **Disclaimer.** BGMMR reads Hearthstone's memory via code injection (Frida). This is a
-> gray area under Blizzard's Terms of Service and carries a real risk of **anti-cheat action
-> on your account**. It is **not** affiliated with or endorsed by Blizzard. Use at your own risk.
+Currently supports the **NA, EU, and AP** servers.
 
 ## Requirements
 - Apple Silicon Mac.
@@ -52,6 +50,18 @@ Frida helper); MMRs come from Blizzard's public leaderboard API. The two are mat
 ./package.sh   # optional: makes dist/BGMMR.dmg and dist/BGMMR.zip
 ```
 
+## Roadmap
+- [x] 🎉 Initial launch — opponent MMR on NA / EU / AP
+- [ ] 🇨🇳 CN (NetEase) server support
+- [ ] 📈 Opponent trend — show each opponent's recent form (are they winning or losing lately?)
+
+Ideas and PRs welcome!
+
 ## License / credits
 MIT (see `LICENSE`). Uses [Frida](https://frida.re) (wxWindows licence); inspired by the
 Windows [HDT_BGrank](https://github.com/IBM5100o/HDT_BGrank) plugin. See `THIRD-PARTY-NOTICES.md`.
+
+## Disclaimer
+BGMMR reads Hearthstone's memory via code injection (Frida). This is a gray area under
+Blizzard's Terms of Service and carries a real risk of **anti-cheat action on your account**.
+It is **not** affiliated with or endorsed by Blizzard. **Use at your own risk.**
