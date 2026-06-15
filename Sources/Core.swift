@@ -115,7 +115,11 @@ final class RankService {
                         self.loadedKey = key
                     }
                     self.loading = false
-                    if !rows.isEmpty { onLoaded() }
+                    // Notify off the rank queue: onLoaded (e.g. MmrModel.publish)
+                    // calls back into rating(for:)/topPlayers, which use queue.sync.
+                    // Running it here would be dispatch_sync on the queue we already
+                    // own → libdispatch traps and the app crashes.
+                    if !rows.isEmpty { DispatchQueue.main.async { onLoaded() } }
                 }
             }
         }
