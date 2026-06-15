@@ -115,9 +115,15 @@ final class HearthstoneWatcher {
             if LeaderboardReader.shared.isRunning { LeaderboardReader.shared.stop(); MmrModel.shared.reset() }
             state = .noGame
             // Auto-quit once Hearthstone has been seen and then closed (auto-start mode only).
+            // Require a *sustained* absence plus an independent confirmation that HS is
+            // really gone, so a transient runningApplications blip (common under the heavy
+            // load at end-of-game) can't close the app while you're still playing.
             if Settings.autoStart && sawHearthstone {
                 noGameTicks += 1
-                if noGameTicks >= 2 { NSApp.terminate(nil) }
+                let confirmedGone = NSRunningApplication
+                    .runningApplications(withBundleIdentifier: kHearthstoneBundleID)
+                    .allSatisfy { $0.isTerminated }
+                if noGameTicks >= 6 && confirmedGone { NSApp.terminate(nil) }
             }
             return
         }
