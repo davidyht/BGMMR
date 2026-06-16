@@ -120,7 +120,9 @@ final class HearthstoneWatcher {
             // Require a *sustained* absence plus an independent confirmation that HS is
             // really gone, so a transient runningApplications blip (common under the heavy
             // load at end-of-game) can't close the app while you're still playing.
-            if Settings.autoStart && sawHearthstone {
+            // Gate on the launchd agent actually being installed (same source of truth as
+            // the menu), not a separate UserDefaults flag that can drift out of sync.
+            if AutoStart.isInstalled && sawHearthstone {
                 noGameTicks += 1
                 let confirmedGone = NSRunningApplication
                     .runningApplications(withBundleIdentifier: kHearthstoneBundleID)

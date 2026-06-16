@@ -179,7 +179,7 @@ final class MmrPanel: NSObject, NSWindowDelegate {
             leftX = scr.visibleFrame.minX + 24; topY = scr.visibleFrame.maxY - 24
         } else { leftX = 40; topY = 800 }
 
-        let frame = NSRect(x: leftX, y: topY - h, width: w, height: h)
+        let frame = clampToScreen(NSRect(x: leftX, y: topY - h, width: w, height: h))
         applyingFrame = true
         lastSetFrame = frame
         panel.setFrame(frame, display: true)
@@ -196,6 +196,23 @@ final class MmrPanel: NSObject, NSWindowDelegate {
         scale = max(MmrPanel.minScale, min(MmrPanel.maxScale, s))
         Settings.panelScale = Double(scale)
         if panel?.isVisible == true { update(entries: lastEntries, title: lastTitle) }
+    }
+
+    /// Keep the panel on a visible screen — a saved frame from a since-disconnected
+    /// monitor or a higher resolution could otherwise place it entirely off-screen.
+    private func clampToScreen(_ frame: NSRect) -> NSRect {
+        let screens = NSScreen.screens
+        let anchor = NSPoint(x: frame.minX, y: frame.maxY - 1)
+        let screen = screens.first { $0.frame.contains(anchor) }
+            ?? screens.first { $0.frame.intersects(frame) }
+            ?? NSScreen.main
+        guard let vis = screen?.visibleFrame else { return frame }
+        var f = frame
+        f.size.width = min(f.width, vis.width)
+        f.size.height = min(f.height, vis.height)
+        f.origin.x = min(max(f.minX, vis.minX), vis.maxX - f.width)
+        f.origin.y = min(max(f.minY, vis.minY), vis.maxY - f.height)
+        return f
     }
 
     func hide() { panel?.orderOut(nil) }
