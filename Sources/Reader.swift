@@ -73,7 +73,9 @@ final class LeaderboardReader {
               let payload = obj["payload"] as? [String: Any] else { return }
         if let names = payload["names"] as? [String] {
             let mode = payload["mode"] as? String ?? "unknown"
-            if !names.isEmpty { MmrModel.shared.setState(names: names, mode: mode) }
+            // Forward every state, including empty ones: an empty set means no opponents
+            // are visible (menu / between games) and lets the model clear the old list.
+            MmrModel.shared.setState(names: names, mode: mode)
         }
     }
 }
